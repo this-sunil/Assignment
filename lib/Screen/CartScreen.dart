@@ -11,9 +11,12 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  bool edit = false;
+  List<Product> products;
   @override
   void initState() {
     super.initState();
+    edit = true;
   }
 
   @override
@@ -22,28 +25,31 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         title: Text("My Cart"),
       ),
-      body: ListView.builder(
-        itemCount: widget.product.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              contentPadding: EdgeInsets.all(10),
-              leading: CircleAvatar(
-                  backgroundImage: AssetImage(widget.product[index].image)),
-              title: Text(widget.product[index].name),
-              subtitle: Text("Rs. " + widget.product[index].price),
-              trailing: IconButton(
-                  color: Colors.black,
-                  icon: Icon(Icons.delete_outline),
-                  onPressed: () {
-                    setState(() {
-                      widget.product.removeAt(index);
-                    });
-                  }),
-            ),
-          );
-        },
-      ),
+      body: edit
+          ? ListView.builder(
+              itemCount: widget.product.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(10),
+                    leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage(widget.product[index].image)),
+                    title: Text(widget.product[index].name),
+                    subtitle: Text("Rs. " + widget.product[index].price),
+                    trailing: IconButton(
+                        color: Colors.black,
+                        icon: Icon(Icons.delete_outline),
+                        onPressed: () {
+                          setState(() {
+                            widget.product.removeAt(index);
+                          });
+                        }),
+                  ),
+                );
+              },
+            )
+          : Container(),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
@@ -57,24 +63,28 @@ class _CartScreenState extends State<CartScreen> {
           }),
     );
   }
-}
 
-dialog(BuildContext context) {
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Your order has been placed sucessfully"),
-          actions: <Widget>[
-            FlatButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
-                }),
-          ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        );
-      });
+  dialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Your order has been placed sucessfully"),
+            actions: <Widget>[
+              FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()));
+                    });
+                  }),
+            ],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          );
+        });
+  }
 }

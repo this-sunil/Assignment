@@ -11,6 +11,7 @@ class LaptopScreen extends StatefulWidget {
 
 class _LaptopScreenState extends State<LaptopScreen> {
   List<Product> product;
+  List<Product> products = [];
   @override
   void initState() {
     super.initState();
@@ -75,18 +76,12 @@ class _LaptopScreenState extends State<LaptopScreen> {
                             style: TextStyle(color: Colors.white)),
                         onPressed: () {
                           setState(() {
-                            if (product.length > 0) {
-                              product.add(Product(
-                                  name: product[index].name,
-                                  image: product[index].image,
-                                  price: product[index].price));
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CartScreen(product: product)));
-                            }
-                            return product;
+                            products.add(Product(
+                                name: product[index].name,
+                                image: product[index].image,
+                                price: product[index].price));
+
+                            return products;
                           });
                         }),
                   ),
@@ -101,13 +96,13 @@ class _LaptopScreenState extends State<LaptopScreen> {
       floatingActionButton: FloatingActionButton.extended(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-          label: Text("${product.length} " + 'Check Out'),
+          label: Text("${products.length} " + 'Check Out'),
           onPressed: () {
             setState(() {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CartScreen(product: product)));
+                      builder: (context) => CartScreen(product: products)));
             });
           }),
     );

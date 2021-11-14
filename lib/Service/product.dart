@@ -3,6 +3,14 @@ class Product {
   String image;
   String price;
   Product({this.name, this.image, this.price});
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      name: json['name'],
+      image: json['image'],
+      price: json['price'],
+    );
+  }
 }
 
 List<Product> mobile() {
@@ -83,7 +91,7 @@ List<Product> laptop() {
       price: '40000',
     ),
     Product(
-     name: 'Hp Pavilion X360',
+      name: 'Hp Pavilion X360',
       image: 'images/laptop/Hp Pavilion X360.jpg',
       price: '20000',
     ),

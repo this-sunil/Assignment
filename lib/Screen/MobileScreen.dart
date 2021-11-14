@@ -11,6 +11,7 @@ class MobileScreen extends StatefulWidget {
 
 class _MobileScreenState extends State<MobileScreen> {
   List<Product> product;
+  List<Product> products = [];
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,6 @@ class _MobileScreenState extends State<MobileScreen> {
             height: 200,
             child: Card(
               child: Stack(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
                       width: 500,
@@ -76,18 +76,13 @@ class _MobileScreenState extends State<MobileScreen> {
                             style: TextStyle(color: Colors.white)),
                         onPressed: () {
                           setState(() {
-                            if (product.length > 0) {
-                              product.add(Product(
-                                  name: product[index].name,
-                                  image: product[index].image,
-                                  price: product[index].price));
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CartScreen(product: product)));
-                            }
-                            return product;
+                            print(product.length + index);
+                            products.add(Product(
+                                name: product[index].name,
+                                image: product[index].image,
+                                price: product[index].price));
+
+                            return products;
                           });
                         }),
                   ),
@@ -102,13 +97,13 @@ class _MobileScreenState extends State<MobileScreen> {
       floatingActionButton: FloatingActionButton.extended(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-          label: Text("${product.length} " + 'Check Out'),
+          label: Text("${products.length} " + 'Check Out'),
           onPressed: () {
             setState(() {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CartScreen(product: product)));
+                      builder: (context) => CartScreen(product: products)));
             });
           }),
     );
